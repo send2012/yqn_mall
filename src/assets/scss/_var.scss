@@ -1,0 +1,62 @@
+$red: #db3d3c;
+$gray-deep: #999;
+$gray: #bfbfbf;
+$gray-shallow: #e5e5e5;
+$gray-shallow-more: #f2f2f2;
+
+$icon-bg: #f9f3e8;
+
+//字体变量
+$font-color-gray: $gray-deep;
+$font-size-small: 12px;
+$font-size-normal: 14px; 
+$font-size-big: 16px;
+
+$border-color: $gray-shallow;
+$bg-color: $gray-shallow-more;
+
+
+
+//一起牛UI设计规范
+
+//标准色
+$main-color: #ff6600;               //主色调
+$linear-color: linear-gradient(0deg,rgba(253,105,45,1) 0%,rgba(253,126,59,1) 100%);         //背景、按钮、下划线
+$price-color: #fe0101;                  //价格颜色
+$background-color: #f7f7f7;             //大背景底色
+$main-title-color: #333;                //正文，导航标题，icon，重点突出
+$sub-title-color: #666;                 //次级标题
+$explain-text-color: #999;              //辅助文字，解释说明
+$spec-text-color: #008000;				//规格文字
+
+
+//标准字号 字体间的行距为字体大小的1.3倍（根字体：25px）
+$main-title-size: .72rem;                 //导航标题，突出位置，价格
+$sub-title-size: .64rem;                  //按钮，副标题
+$product-title-size: .56rem;              //商品名称、正文标题
+$params-title-size: .52rem;               //参数说明，可交互说明文字
+$extra-size: .48rem;                      //部分补充说明文字
+// $tag-size: .4rem;                        //商品活动标签
+$tag-size: 12px;
+
+//标准按钮
+.yqn-btn-normal {
+    width: 3.12rem;
+    height: 1.32rem;
+}                                   //确认收货，查看物流（标准）
+
+.yqn-btn-small {
+    width: 2.7rem;
+    height: 1rem;       
+}                                   //确认收货，查看物流（小）
+
+.yqn-btn-big {
+    width: 13.76rem;
+    height: 1.76rem;            
+}                                   //去兑换商品（大）
+
+.yqn-btn-full {
+    width: 100%;
+    height: 1.76rem;        
+}                               //确认（宽顶到屏幕边缘）
+

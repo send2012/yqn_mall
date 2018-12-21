@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>一起牛母婴采购平台</title>
+    <meta content="telephone=no" name="format-detection">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<!--		<script type="text/javascript" src="https://unpkg.com/alloylever@1.0.2/alloy-lever.js"></script>-->
+    <!-- 小程序SDK -->
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+  </head>
+  <body ontouchstart>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script type="text/javascript">
+        var vars = window.vars || {};
+        (function(doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth < 750 ? docEl.clientWidth : 750;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 50 * (clientWidth / 750) + 'px';
+                    vars.RATE = clientWidth / 750
+                };
+            
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+            recalc();
+        })(document, window)
+    </script>
+	  
+	<script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js"></script>
+  </body>
+</html>

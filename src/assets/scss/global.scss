@@ -1,0 +1,203 @@
+@import "./var";
+@import "mixin";
+
+@import "./common";
+@import "./vant-theme";
+
+a {
+	color: #000
+}
+
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+html {
+	-webkit-overflow-scrolling: touch;
+}
+
+body {
+	overflow-x: hidden;
+	max-width: 700px;
+	margin: 0 auto;
+	font-size: 14px;
+	position: relative;
+    min-height:100%;
+    font-family:Helvetica;
+}
+
+//路由左右滑动
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+	will-change: transform;
+	transition: all .3s;
+	position: absolute;
+	width:100%;
+	left:0;
+}
+.slide-right-enter {
+	transform: translateX(-100%);
+}
+.slide-right-leave-active {
+	transform: translateX(100%);
+}
+.slide-left-enter {
+	transform: translateX(100%);
+}
+.slide-left-leave-active {
+	transform: translateX(-100%);
+}
+
+
+//tabbar上下滑动
+.slide-fade-enter-active {
+	transition: all .3s ease;
+}
+.slide-fade-leave-active {
+	transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+	transform: translateY(100%);
+	opacity: 0;
+}
+
+
+.view-router {
+	background-color: $background-color;
+	height: 100vh;
+	// overflow-y: auto;
+	padding-bottom: 50px;
+    box-sizing: border-box;
+    .van-loading {
+        //更改loading样式的上下居中问题
+        top: 35%;
+    }
+    .van-loading__spinner {
+        //将loading样式改回来
+        background-image: none;
+        animation-duration: 2s;
+        animation: van-rotate .8s linear infinite;
+    }
+}
+
+.example-button {
+	position: fixed;
+	left: 0;
+	top: 300px;
+	width: 100px;
+	z-index: 10000;
+	height: 70px;
+}
+
+
+
+//商品详情页
+.item_desc{
+	img{
+		max-width: 100%;
+        display: block;
+        height: auto;
+	}
+}
+
+//隐藏滚动条
+::-webkit-scrollbar {
+    display: none;
+}
+
+//dialog样式
+.van-dialog {
+    width: 11.2rem;
+}
+
+//sku上的图片
+.van-sku-header {
+    height: 5.46rem;
+    .van-sku-header__img-wrap {
+        width: 4.6rem !important;
+        height: 4.6rem !important;
+        // box-shadow:0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+        border-radius:10px;
+        margin-top: 3px;
+    }
+    .van-sku-header__goods-info {
+        padding-right: 11px;
+    }
+}
+
+//返回顶部
+.yqn-backToTop {
+    position: fixed;
+    right: 20px;
+    bottom: 70px;
+    width: 1.6rem;
+    height: auto;
+    background-color: rgba(243,241,241,0.5);
+    border: 1px solid #CCC;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+//toast的样式
+//loading
+.van-toast {
+    padding: 0;
+    // min-width: 100px;
+    min-height: 26px;
+    // height: 100px;
+    width: auto;
+    min-width: 40px;
+}
+.van-toast--default {
+    // width: 100px;
+}
+.van-toast__text {
+    font-size: $params-title-size;
+}
+.van-loading {
+    position: absolute;
+    margin: 0 !important;
+    width: 110%;
+    height: auto;
+}
+.van-loading__spinner {
+    display: inline-block;
+    width: 100%;
+    background-image: url('../images/loading.gif');
+    background-repeat: no-repeat; 
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+}
+.van-loading__spinner {
+    animation: none;
+}
+
+//success,fail
+.van-toast--default.van-toast--middle {
+    .van-icon-success, .van-icon-fail {
+        padding-top: 10px;
+    }
+    .van-toast__text {
+        font-size: $extra-size;
+        padding: 10px 8px 10px;
+    }
+}
+    
+
+//message
+.van-toast--text.van-toast {
+    height: 26px;
+    >div {
+        padding: 0 8px;
+        font-size: $extra-size;
+        max-width: 11rem;
+        overflow: hidden;    
+        text-overflow: ellipsis;    
+        white-space: nowrap; 
+    }
+}
+
+
