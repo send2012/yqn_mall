@@ -53,10 +53,11 @@
                         v-for="(goods, goodsI) in item.pros"
                         class="order_list--van-card"
                         :key="goodsI"
-                        :thumb="goods.picpath"
                         @click.native="toOrderDetail(goods.pro_pid)"
                     >
-                    
+                        <div slot="thumb">
+                            <img v-lazy="goods.picpath" alt="">
+                        </div>
                         <div slot="title" class="card_title">
                             {{goods.ptitle}}
                         </div>
@@ -471,7 +472,6 @@
                 line-height: .56rem;
                 height: 1.1rem;
                 color: $main-title-color;
-                overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;

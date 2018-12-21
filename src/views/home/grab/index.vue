@@ -10,7 +10,7 @@
                 <van-tab title="秒杀专区">
                     <van-pull-refresh @refresh="onRefresh"
                                       v-model="isLoading">
-                        <section class="seckill_list_banner">
+                        <section v-if="!isEmpty" class="seckill_list_banner">
                             <img src="../../../assets/images/grab_banner.jpg"
                                  alt="秒杀专区顶部图片"
                                  class="seckill_list_banner_image"
@@ -132,9 +132,9 @@
                 <van-tab class="limit-time-buy" title="限时抢购">
                     <van-pull-refresh @refresh="onRefresh"
                                       v-model="isLoading">
-                        <section class="seckill_list_banner">
-                            <img src="https://m.naifenpifa168.com/src/m/view/themes/css/images/miaosha_banner_m.jpg"
-                                 alt="顶部图片"
+                        <section v-if="!isEmpty" class="seckill_list_banner">
+                            <img src="../../../assets/images/limittime_banner.png"
+                                 alt="限时抢购顶部图片"
                                  class="seckill_list_banner_image"
                             />
                         </section>
@@ -406,8 +406,8 @@
             initData() {
                 if (this.activeTab === 0) {
                     // 秒杀专区
-                    let { date, group, id } = this;
-                    this.$reqGet(PROMOTE_SECKILL_LIST, { date, group, id }).then(res => {
+                    let {date, group, id} = this;
+                    this.$reqGet(PROMOTE_SECKILL_LIST, {date, group, id}).then(res => {
                         const {list, page} = res.data;
 
                         // list 为空数组时, 显示空白页
@@ -807,7 +807,7 @@
             .van-tabs__wrap {
                 height: 2.25rem;
                 padding-top: .08rem;
-                background: rgba(255, 232, 36, 1);
+                background-color: rgba(255, 232, 36, 1);
             }
 
             .van-tabs__line {
@@ -878,7 +878,7 @@
                                 }
 
                                 .item_card_info {
-                                    margin-left: 5.8rem;
+                                    margin-left: 5.9rem;
 
                                     .item_card_footer {
                                         &_left {
@@ -917,7 +917,7 @@
                                     }
 
                                     .item_card_info {
-                                        margin-left: 5.8rem;
+                                        margin-left: 5.9rem;
 
                                         .item_card_footer {
                                             &_left {
@@ -944,9 +944,9 @@
             .grab_public_style {
                 .item_card_H_wrap_inner {
                     .item_card_info {
-                        /*.item_card_name {*/
-                            /*line-height: .7rem;*/
-                        /*}*/
+                        .item_card_name {
+                            line-height: .7rem;
+                        }
 
                         .item_card_info_tags {
                             span {

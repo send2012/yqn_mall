@@ -4,7 +4,7 @@
             title="提交订单"
             @back="backTo" />
 
-        <div v-if="goods.shipmoney != 0" class="point_order_address" @click="changeAddress">
+        <div v-if="goods.shipmoney !== 0" class="point_order_address" @click="changeAddress">
             <span class="point_order_address_text">
                 <span class="point_order_address_text_user">
                     <van-icon name="yqn_location" class="point_order_address_text_address_icon" />
@@ -126,7 +126,7 @@
                     buynum: 1,
                     bz: '',
                     address_id: ''
-                },                   //商品兑换订单提交
+                },                      // 商品兑换订单提交
                 goods: {},                  //商品详情
                 user_base_info: {},                  //用户积分详情
                 user_address: {},                    //用户默认收货地址
@@ -145,18 +145,18 @@
             this.initData();
             this.getAddress();
             this.$bus.$on('address_id', id => {
-                this.getAddress(id)
-            })
+                this.getAddress(id);
+            });
         },
 
         methods: {
             initData() {
-                //获取商品详情
+                // 获取商品详情
                 // this.$reqGet(`${GOODS_DETAIL}`, {
                 // 	expand: "desc,skus,prop_imgs,item_imgs"
                 // }).then(res => {
                 // 	this.goods = res.data.data;
-                // })
+                // });
                 this.$reqGet(USER_BUY_COUPON_DETAIL, {id: this.coupon_id}).then(res => {
                     this.goods = Object.assign({}, res.data);
                     // this.point_now_count = res.data.point;
@@ -175,8 +175,7 @@
                         this.form.address_id = res.data.address_id;
                         this.user_address = Object.assign({}, res.data);
                     }
-
-                })
+                });
             },
             doBuyNow() {
                 if ((this.goods.has_sku && this.selectSku.sku_id) || !this.goods.has_sku) {
@@ -203,11 +202,11 @@
             },
             exchange() {
                 this.$reqPost(USER_BUY_COUPON_SUB, { coupon_id: this.coupon_id, address_id: this.form.address_id }).then(res => {
-                    console.log(res);
+                    // console.log(res);
 
                     if (res.code !== 200)
                     {
-                        this.$toast('出现点儿问题');
+                        this.$toast(res.msg);
                     }
                     else
                     {

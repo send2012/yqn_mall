@@ -70,10 +70,11 @@
                                 v-for="(goods, goodsI) in el.pros"
                                 class="order_list--van-card"
                                 :key="goodsI"
-                                :thumb="goods.picpath"
                                 @click.native="toOrderDetail(i)"
                             >
-                            
+                                <div slot="thumb">
+                                    <img v-lazy="goods.picpath" alt="">
+                                </div>
                                 <div slot="title" class="card_title">
                                         {{goods.ptitle}}
                                 </div>
@@ -347,6 +348,7 @@
 			handleTabClick(index){
                 //切换状态回弹
                 this.change_tab_action = true;
+                this.items = [];
 
                 if(index === 1) {
                     this.obligations = true;
@@ -487,6 +489,7 @@
         .van-pull-refresh{
             height: 100%;
             overflow: auto;
+            padding-bottom:2rem; 
         }
         &_tabs {
             position: fixed;

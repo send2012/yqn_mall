@@ -203,7 +203,7 @@
         created() {
             this.scrollShowArrow = this.$util.throttle(this.scrollShowArrow, 100);
             this.resetInit();
-            this.goods_getsuccess()
+            this.getgoods();
         },
 
 		activated() {
@@ -233,10 +233,9 @@
             },
             
             goods_getsuccess(){
-                let count=0
+                let count=1
                 const that = this
                 that.timer = setInterval(()=>{
-                                
                     that.$reqGet(SYS_GOODS_SUCCESS,{
                     goods:(that.act=='Topay' || that.act=='')?that.goods:that.goods.join(''),
                     act:that.act=='Topay'?'':that.act,
@@ -258,6 +257,24 @@
                     })
                 },1500)
                 
+            },
+
+            getgoods(){
+                const that=this
+                that.$reqGet(SYS_GOODS_SUCCESS,{
+                    goods:(that.act=='Topay' || that.act=='')?that.goods:that.goods.join(''),
+                    act:that.act=='Topay'?'':that.act,
+                    pay:(that.act=='Topay' || that.act=='presell' || that.act=='point')?0:1
+                    }).then(res=>{
+                        this.count=1
+                        that.payzt = res.data.payzt
+                        that.summoney=res.data.summoney;
+                        if(that.payzt  == 1){ 
+                            clearInterval(that.timer)
+                        }else{
+                            this.goods_getsuccess()
+                        }
+                })
             },
 
 			// eventListen(isBind = true){

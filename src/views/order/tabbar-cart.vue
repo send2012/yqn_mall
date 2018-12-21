@@ -257,7 +257,7 @@
     <!-- 优惠券 -->
             <van-popup v-model="show_coupon" position="bottom">
             <div class="tab-cart_popup_coupon_content">
-                <div class="tab-cart_popup_title" style="text-align:center;">
+                <div class="tab-cart_popup_title tab-cart_popup_top" style="text-align:center;">
                     优惠券
                     <van-icon name="yqn_close" class="tab-cart_popup_title_close" @click="showCoupon"/>
                 </div>
@@ -956,7 +956,13 @@
                 }
             }
         }
-
+        &_popup_top{
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            background: #fff;
+            z-index: 1;
+        }
         &_popup_title {
             width: 100%;
             height: 1.92rem;
@@ -981,8 +987,9 @@
            
         }
         &_popup_coupon_content {
-            padding: 0 .3rem;
+            box-sizing: border-box;
             height: 14.26rem;
+            padding: 1.92rem .3rem 0 .3rem;
             overflow-y: auto;
             &_title {
                 display: inline-block;

@@ -289,13 +289,13 @@
             } else if (this.itemCid) {
                 //通过子分类进入
                 this.list_form.cid = this.itemCid;
-                // this.list_form.pcid = this.itemPcid;        //列表参数
-                // this.filter_form.pcid = this.itemPcid;
+                this.list_form.pcid = this.itemPcid || '';        //列表参数
+                this.filter_form.pcid = this.itemPcid || '';
             } else if (this.itemBid) {
                 //通过品牌进入
                 this.list_form.bid = this.itemBid;
-                // this.list_form.pcid = this.itemPcid;        //列表参数
-                // this.filter_form.pcid = this.itemPcid;
+                this.list_form.pcid = this.itemPcid || '';        //列表参数
+                this.filter_form.pcid = this.itemPcid || '';
             }
             // switch (this.type) {
             //     case 'all':
@@ -386,7 +386,7 @@
                         })
                         //分配子分类并渲染颜色
                         res.data.children.map((item) => {
-                            if (item.id === this.itemClass) {
+                            if (item.id === this.itemCid) {
                                 item.type = 'danger';
                                 this.childClassName = item.title;
                             } else {
@@ -396,7 +396,7 @@
                         })
                         //分配品牌并渲染颜色
                         res.data.brand.map((item) => {
-                            if (item.id === this.itemClass) {
+                            if (item.id === this.itemBid) {
                                 item.type = 'danger';
                                 this.brands = item.title;
                             } else {

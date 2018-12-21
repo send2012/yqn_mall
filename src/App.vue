@@ -141,7 +141,17 @@
 
                 //获取弹窗广告
                 if(localStorage.getItem('Authorization')) {
-                    this.getAds();
+                    //判断是否为小程序
+                    let ver = false;
+                    wx.miniProgram.getEnv(function (res) {
+                        if(res.miniprogram) {
+                            ver = true;
+                        }
+                    })
+                    if(!ver) {
+                        this.getAds();
+                    }
+                    
                 }
                 
 

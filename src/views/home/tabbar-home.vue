@@ -625,7 +625,6 @@
                 }, 500)
             } else {
                 next(vm => {
-                    console.log(111)
                     if (from.name === 'login' || vm.goodsGroup.items.length === 0 || !vm.menu) {
                         vm.initViews();
                         vm.resetInit();

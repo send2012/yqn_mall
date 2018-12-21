@@ -509,7 +509,6 @@ export default {
     float: left;
     text-align: center;
     background-color: #fff;
-    position: absolute;
     z-index: 2;
 }
 .mine_wuliu_list_cen_detil_li_text {

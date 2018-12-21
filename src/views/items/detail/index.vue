@@ -391,14 +391,14 @@
                 <van-cell-group>
                     <van-cell is-link @click="showAddress">
                         <template slot="title" class="item_sku_group">
-                            <span>送至：</span>
-                            <van-icon name="yqn_location" />
+                            <span class="item_sku_group_send_to">送至：</span>
+                            <van-icon class="item_sku_group_icon" name="yqn_location" />
                             <span>{{address_info}}</span>
                         </template>
                     </van-cell>
                     <van-cell>
                         <div slot="title" class="item_sku_freight">
-                            <span>配送方式</span>
+                            <span class="item_sku_freight_delivery_method">配送方式</span>
                             <span class="item_sku_freight_btns">
                                 <span
                                     :style="(goods.ship_type === 0 || goods.ship_type === 1)?'':{color: '#999', border: '1px solid #999'}"
@@ -2640,12 +2640,27 @@
             &_group {
                 display: flex;
                 align-items: center;
+
+                &_send_to
+                {
+                    color: $sub-title-color;
+                }
+
+                &_icon
+                {
+                    font-size: 16px;
+                }
             }
 
             &_freight {
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
+
+                &_delivery_method
+                {
+                    color: $sub-title-color;
+                }
 
                 &_btns {
                     font-size: $extra-size;
@@ -2654,10 +2669,11 @@
                         display: inline-block;
                         width: 2.88rem;
                         height: .96rem;
-                        line-height: .96rem;
+                        /*line-height: .96rem;*/
                         /*padding: 0 .2rem;*/
                         border-radius: .2rem;
                         border: 1px solid $sub-title-color;
+                        font-size: 13px;
                         text-align: center;
 
                         &:nth-child(2) {
@@ -2757,11 +2773,11 @@
                             line-height: 0 !important;
                         }
 
-                        @media screen and (max-width: 345px) {
-                            li {
-                                padding: .2rem 0 .2rem 0;
-                            }
-                        }
+                        /*@media screen and (max-width: 345px) {*/
+                            /*li {*/
+                                /*padding: .2rem 0 .2rem 0;*/
+                            /*}*/
+                        /*}*/
                     }
 
                     &_sku1 {
@@ -3410,6 +3426,66 @@
                     .van-dialog__confirm {
                         display: none;
                     }
+                }
+            }
+        }
+
+        /* 步进器样式调整 */
+        /*.item_sku {*/
+            /*&_desc {*/
+                /*&_content {*/
+                    /*&_right {*/
+                        /*.item_sku_desc_content_num {*/
+                            /*&_content {*/
+                                /*.van-stepper {*/
+                                    /*.van-stepper__minus {*/
+                                        /*width: 23px;*/
+                                        /*height: 23px;*/
+                                    /*}*/
+
+                                    /*.van-stepper__input {*/
+                                        /*-webkit-box-sizing: border-box;*/
+                                        /*-moz-box-sizing: border-box;*/
+                                        /*box-sizing: border-box;*/
+                                        /*width: 41px;*/
+                                        /*height: 23px;*/
+                                    /*}*/
+
+                                    /*.van-stepper__plus {*/
+                                        /*width: 23px;*/
+                                        /*height: 23px;*/
+                                    /*}*/
+                                /*}*/
+                            /*}*/
+                        /*}*/
+                    /*}*/
+                /*}*/
+
+                /*&_oneSkuContent {*/
+                    /*.van-stepper {*/
+                        /*.van-stepper__minus {*/
+                            /*width: 30px;*/
+                        /*}*/
+
+                        /*.van-stepper__input {*/
+                            /*width: 30px;*/
+                        /*}*/
+
+                        /*.van-stepper__plus {*/
+                            /*width: 30px;*/
+                        /*}*/
+                    /*}*/
+                /*}*/
+            /*}*/
+        /*}*/
+
+        .item_sku
+        {
+            .van-sku-header
+            {
+                .van-sku-header__img-wrap
+                {
+                    margin-top: .52rem;
                 }
             }
         }

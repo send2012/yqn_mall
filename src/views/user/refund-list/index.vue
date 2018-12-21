@@ -48,6 +48,9 @@
                             class="order_list--van-card"
                             :thumb="goods.picpath"
                         >
+                            <div slot="thumb">
+                                <img v-lazy="goods.picpath" alt="">
+                            </div>
                             <div slot="title" class="card_title">
                                     {{goods.ptitle}}
                             </div>
@@ -204,15 +207,13 @@
                 <span class="order_list_refundList_price_price">
                     退款金额 {{refund_data.refund_money}} 元
                 </span>
-                
             </template>
 
             <template slot="sku-stepper" slot-scope="props">
                 <!-- 步进器，数量选择区 -->
                 <md-field-group class="field_group">
-
                 <logis-field
-                    label="退货地址：">
+                    label="">
                     <span slot="extra">{{refund_data.ret_address}}</span>
                 </logis-field>
 
@@ -544,6 +545,7 @@
 				// }
             },
 			handleTabClick(index){
+                this.items = []
 				if(this.activeIndex != index){
                     this.activeIndex = index;
                     // if(index === 0) {
@@ -553,7 +555,7 @@
                     // }
                     //切换状态回弹
                     this.change_tab_action = true;
-
+                    
                     //标记已经改变过路由
                     this.change_route = true;
                     this.$router.replace({name: "user-refund-list", params: { active: index }})

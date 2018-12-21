@@ -56,10 +56,11 @@
                         <div class="order_list--panel_inner_normal" :ref="'cardList' + i">
                             <van-card
                                 class="order_list--van-card"
-                                :thumb="el.picpath"
                                 @click.native="toOrderDetail(i)"
                             >
-                            
+                                <div slot="thumb">
+                                    <img v-lazy="el.picpath" alt="">
+                                </div>
                                 <div slot="title" class="card_title">
                                         {{el.ptitle}}
                                 </div>
@@ -272,7 +273,7 @@
             handleTabClick(index){
                 //切换状态回弹
                 this.change_tab_action = true;
-
+                this.items = []
                 // if(index === 1) {
                 //     this.obligations = true;
                 // }else {

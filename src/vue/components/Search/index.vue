@@ -81,6 +81,10 @@
                 //     this.keyword = this.placeholder;
                 // }
             })
+            if(this.$route.query.keyword) {
+                //若从分类跳过来的，则携带keyword参数
+                this.keyword = this.$route.query.keyword;
+            }
         },
         watch: {
             '$route': 'changeHotWord'

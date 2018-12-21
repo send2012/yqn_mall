@@ -42,10 +42,11 @@
                 <div class="order_list--panel_inner_normal" :ref="'cardList' + i">
                     <van-card
                         class="order_list--van-card"
-                        :thumb="order_detail.picpath"
                         @click.native="toOrderDetail(order_detail.pid)"
                     >
-                    
+                        <div slot="thumb">
+                            <img v-lazy="order_detail.picpath" alt="">
+                        </div>
                         <div slot="title" class="card_title">
                             {{order_detail.ptitle}}
                         </div>

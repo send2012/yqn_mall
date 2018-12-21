@@ -37,6 +37,7 @@
             <coupon-list
                 v-if="show"
                 :coupon_list="list_info['coupon']"
+                :paytype="buytype"
                 @popupCoupon="popUp"
                 @selectCouponReset="resetData"/>
         </van-popup>

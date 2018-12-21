@@ -60,10 +60,11 @@
                         <div class="order_list--panel_inner_normal" :ref="'cardList' + i">
                             <van-card
                                 class="order_list--van-card"
-                                :thumb="el.picpath"
                                 @click.native="toOrderDetail(i)"
                             >
-                            
+                                <div slot="thumb">
+                                    <img v-lazy="el.picpath" alt="">
+                                </div>
                                 <div slot="title" class="card_title">
                                         {{el.title}}
                                 </div>
@@ -270,6 +271,7 @@
                 //     this.obligations = false;
                 // }
                 //标记已经改变过路由
+                this.items = []
                 this.change_route = true;
                 this.$router.replace({name: "user-gift-record", params: { active: index }});
 			},

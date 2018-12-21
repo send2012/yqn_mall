@@ -171,6 +171,7 @@
                 @input='idcardInput'
                 v-if="list.idcard"
                 placeholder="请输入身份证号"
+                @blur="checkidcard"
             />
             <van-field v-model="remark" type="textarea"  rows="1"  :autosize="{maxHeight:72,minHeight:24}" placeholder="请输入备注信息" label="备注信息" class="order-goods_extra_cell_markdown" @input="remarkInput">
 				<!-- <template slot="icon">
@@ -499,6 +500,15 @@
             },
             idcardInput(value){
                 this.$emit('idcard',value)
+            },
+            checkidcard(){
+                 const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+                 if(!reg.test(this.idcard)){
+                    this.$toast.fail({
+                    position: 'middle',
+                    message: '身份证号不合法'
+                    })
+                }
             },
             coupon() {
                 //选择优惠券弹出层

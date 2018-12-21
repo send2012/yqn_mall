@@ -115,13 +115,15 @@
             coupon_list: {
                 type: Object,
                 default: () => {}
-            }
+            },
+            paytype:String,
 		},
 
 		data() {
             const activeIndex = this.status;
             const shop_id = this.$util.getLocationParam("shop_id");
             const coupon_new = this.coupon_list;
+            const buytype = this.paytype
             const result = [];
             let price = 0;
             let cousIsEmpty, cousNoIsEmpty = false;
@@ -157,6 +159,7 @@
                 ],
                 result,                              //多选选中的项
                 price,                              //优惠券优惠的金额
+                buytype,
                 cousIsEmpty,                        //没有可用优惠券
                 cousNoIsEmpty,                       //没有不可用优惠券
                 reset_data: null                    //点击优惠券后的整个表单的数据
@@ -172,10 +175,11 @@
 		},
 		
 		methods: {
-			initData(address_id,cou_ids) {
+			initData(address_id,cou_ids,buytype) {
 				this.$reqPost(PRO_SUBCHANGE,{
                     address_id,
-                    cou_ids
+                    cou_ids,
+                    buytype
                 }).then(res => {
                     //第一次进入默认选中项
                     let result = [];
@@ -224,7 +228,8 @@
             changeCheckCoupon(el) {
                 //改变多选框的值
                 if(el.checked){
-                    this.initData('',this.result);
+                    console.log(22222222222222,this.result)
+                    this.initData('',this.result,this.buytype);
                 }
                
             },

@@ -171,8 +171,6 @@
                     width: 4rem;
                     span {
                         display: inline-block;
-                        position: absolute;
-                        top: -.4rem;
                     }
                     
                 }
