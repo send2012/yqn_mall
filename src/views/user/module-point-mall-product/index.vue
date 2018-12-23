@@ -543,7 +543,11 @@
     }
 
     .scroll_view {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
         height: 100%;
+        padding-bottom: 2.1rem;
         overflow-y: auto;
 
         .yqn-swipe-content

@@ -53,7 +53,7 @@ const API_ROOT = () => {
 
 
 let instance = axios.create({
-	timeout: 5000,
+	timeout: 8000,
 	// baseURL: process.env.NODE_ENV === "development" ? '/api' : ""
     // baseURL: 'http://api.yqn.cc/shop'
     baseURL: API_ROOT()
@@ -89,6 +89,12 @@ instance.interceptors.response.use( (res) => {
 		switch (res.data.code) {
             case 0: 
                 //系统错误
+                Dialog.alert({
+                    title: '警告',
+                    message: res.data.msg
+                })
+
+                return res.data
                 // Toast.fail({
                 //     duration: '10000',
                 //     position: 'middle',
@@ -133,11 +139,11 @@ instance.interceptors.response.use( (res) => {
 	}
 	return res.data;
 }, (error) => {
-	Toast.clear();
-	// Dialog.alert({
-	//   title: '警告',
-	//   message: error.message
-	// })
+    Toast.clear();
+	Dialog.alert({
+	  title: '警告',
+	  message: error.message
+	})
 	return Promise.reject(error);
 });
 

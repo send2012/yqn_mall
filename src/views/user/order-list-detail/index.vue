@@ -183,8 +183,8 @@
 	
 	import { Panel, Card } from 'vant';
 	import status0 from "./handle-status-10";
-	import status20 from "./handle-status-20";
-	import status1 from "./handle-status-25";
+	import status1 from "./handle-status-20";
+	import status25 from "./handle-status-25";
 	import status3 from "./handle-status-30";
 	import status40 from "./handle-status-40";
 	import status50 from "./handle-status-50";
@@ -357,7 +357,8 @@
 			[Panel.name]: Panel,
             [Card.name]: Card,
             [NavBar.name]: NavBar,
-			status0,
+            status0,
+            status1,
 			status3,
 			status4,
             status9
@@ -469,8 +470,8 @@
             }
             .card_title {
                 // font-size: $extra-size;
-                line-height: .56rem;
-                height: 1.1rem;
+                font-size: $params-title-size;
+                line-height: .7rem;
                 color: $main-title-color;
                 text-overflow: ellipsis;
                 display: -webkit-box;

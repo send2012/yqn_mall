@@ -107,6 +107,8 @@
                         sessionStorage.setItem('search_hot', JSON.stringify(res.data.web.searchhot));
                         //存储默认词到本地
                         sessionStorage.setItem('search_default', res.data.web.searchmr);
+                        //存储员工二维码至本地
+                        sessionStorage.setItem('yg_qrcode', res.data.yg_qrcode);
                     })
                 }
                 

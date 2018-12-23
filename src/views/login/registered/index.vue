@@ -410,7 +410,7 @@
 
                         if (res.code !== 200)
                         {
-                            return 0;
+                            return false;
                         }
                         else
                         {
@@ -447,7 +447,7 @@
                 const loginData = this.getLoginData();
                 this.isLogining = true;
                 this.$reqGet(USER_LOGIN).then(res => {
-                    console.log(res);
+                    // console.log(res);
                     localStorage.setItem('Authorization', res.data.data.access_token);
                     //   this.$util.setLocalStorage({
                     //     Authorization: res.data.data.access_token

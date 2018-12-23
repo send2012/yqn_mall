@@ -206,6 +206,7 @@ const openInApp = function() {
  * @param   shareImgAction  共享图片
  * @param   clearCacheAction    清除缓存
  * @param   qynsharelink    共享链接
+ * @param   checkUpgrade    检测升级
  */
 const iosFunc = function(name,data) {
     switch(name) {      
@@ -252,6 +253,7 @@ const iosFunc = function(name,data) {
             //     url: "完整链接地址"
             // };
             window.webkit.messageHandlers.qynsharelink.postMessage(data);
+            break;
         case 'appPayAction':
             //支付
             window.webkit.messageHandlers.appPayAction.postMessage(data);
@@ -279,6 +281,11 @@ const iosFunc = function(name,data) {
         case 'clearCacheAction': 
             //清除缓存
             window.webkit.messageHandlers.clearCacheAction.postMessage({});
+            break;
+        case 'checkUpgrade':
+            //检测升级
+            window.webkit.messageHandlers.checkUpgrade.postMessage({});
+            break;
         default:
             break;
     }   
@@ -389,6 +396,7 @@ const androidFunc = function(name,data) {
             //获取版本
             let code = yqnjs.showVersion(1);
             return code;
+            
         case 'checkUpgrade':
             //检测升级
             yqnjs.checkUpgrade();

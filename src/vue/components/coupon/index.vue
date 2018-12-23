@@ -20,7 +20,7 @@
                     </span>
                     <span :class="'coupon_item_data_desc_desc_btn '+ getBtnColor(data.zt)" @click="userCouponNow(data.id)">立即使用</span>
                 </span>
-                <span class="coupon_item_data_desc_date">{{data.usesdate + ' ~ ' + data.useedate}}</span>
+                <span class="coupon_item_data_desc_date">{{data.usesdate | show_date}}  ~  {{ data.useedate | show_date}}</span>
             </div>
         </div>
         <img :src="stamp_used" alt="" class="stamp_used" v-if="data.zt === 1">

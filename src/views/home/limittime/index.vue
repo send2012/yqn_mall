@@ -9,8 +9,9 @@
                 <!-- 限时抢购 -->
                 
                         <section class="seckill_list_banner">
-                            <img src="../../../assets/images/limittime_banner.png"
+                            <img :src="banner?banner:require('../../../assets/images/limittime_banner.png')"
                                  alt="顶部图片"
+                                 :onerror="banner_error"
                                  class="seckill_list_banner_image"
                             />
                         </section>
@@ -45,7 +46,7 @@
                         <div v-if="itemsLimit">
                             <item-group :key="item.key" v-for="item in itemsLimit">
                                 <item-card-hori
-                                    v-for="(good, i) in item.plist"
+                                    v-for="(good, i) in item.prolist"
                                     :key="i"
                                     :goods="good"
                                     @click="itemClick(good.pro_pid)"
@@ -223,6 +224,8 @@
                 group,                  //要显示的活动数 0为分上午中午下午 1,2,3,4...为整点显示的个数
                 id,                         //秒杀活动id
                 date_activity: 0,             //活动是否已经结束  0未开始  1开始  2.结束
+                banner: '',                     //限时抢购banner
+                banner_error: 'this.src="' + require('../../../assets/images/limittime_banner.png') + '"',        //限时抢购banner错误
                 activeTab: 0, // 顶部 tab 激活
                 isLoading: false,
                 items: [], // 秒杀类
@@ -259,7 +262,7 @@
                 this.$reqGet(PROMOTE_LIMITTIME_LIST, {
                     id: this.$route.params.itemClass
                 }).then(res => {
-                    const {list, page} = res.data;
+                    const { list, page, banner } = res.data;
 
                     if (list.length === 0) {
                         this.isEmpty = true;
@@ -270,6 +273,7 @@
                     // if (list instanceof Array) this.isEmpty = false;
 
                     this.itemsLimit.push(...this.$util.objectToArray(list));
+                    this.banner = banner;
                     // console.log(this.itemsLimit);
                     this.stamp = res.data.servertime;
                     this.items = [];

@@ -44,19 +44,24 @@
                     <div class="item_card_footer_left">
                         <div class="footer_price">
                             <!-- 秒杀直降价格区间 -->
-                            ￥<span>{{(goods.prom_limit.max_price || goods.max_price === goods.prom_limit.min_price || goods.min_price)?goods.prom_limit.max_price || goods.max_price : (goods.prom_limit.min_price + '~' + goods.prom_limit.max_price)}}</span>
+                            ￥<span v-if="goods && goods.prom_limit.max_price">
+                                {{goods.prom_limit.min_price | show_price(goods.prom_limit.max_price)}}
+                                </span>
+                                <span v-else>
+                                    {{goods.min_price | show_price(goods.max_price)}}
+                                </span>
                             <!-- <span class="marketPrice" v-if="goods.market_price">{{goods.market_price | yuan}}</span> -->
                         </div>
                         <div class="footer_price footer_price_">
                             <!-- 原来价格区间 -->
-                            原价：￥<span>{{(goods.max_price === goods.min_price)?goods.max_price:(goods.min_price + '~' + goods.max_price)}}</span>
+                            原价：￥<span>{{goods.min_price | show_price(goods.max_price)}}</span>
                             <!-- <span class="marketPrice" v-if="goods.market_price">{{goods.market_price | yuan}}</span> -->
                         </div>
                         <!-- <div class="item_card_sumSale">
                             热度：{{goods.sum_sale}}
                         </div> -->
-                        <vm-progress :percentage="70" :text-inside="true" :stroke-width="14" status="exception" striped
-                                     class="progress" stroke-color="#FF6600" track-color="#FFB27F">已售 70%
+                        <vm-progress :percentage="goods.prom_limit.rate" :text-inside="true" :stroke-width="14" status="exception" striped
+                                     class="progress" stroke-color="#FF6600" track-color="#FFB27F">已售 {{goods.prom_limit.rate}}%
                         </vm-progress>
                     </div>
 

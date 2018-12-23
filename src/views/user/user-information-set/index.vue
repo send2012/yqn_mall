@@ -133,8 +133,6 @@
 							
 						// 	},1000)
 						// })
-							this.$toast('退出登录成功，请等候跳转。。。');
-							this.$router.push({name: 'login'})
 						}
 					}else if(this.browsertype === 'IOS'){
 						if(this.$util.checkPrimalFunc){
@@ -145,8 +143,6 @@
 						// 		this.$router.push({name: 'login'})
 						// 	},1000)
 						// })
-							this.$toast('退出登录成功，请等候跳转。。。');
-							this.$router.push({name: 'login'})
 						}
 					}else{
 						// this.$reqPost(USER_LOGOUT).then((res)=>{
@@ -155,9 +151,13 @@
 						// 		this.$router.push({name: 'login'})
 						// 	},1000)
 						// })
-						this.$toast('退出登录成功，请等候跳转。。。');
-						this.$router.push({name: 'login'})
-					}
+                        
+                    }
+                    localStorage.removeItem('Authorization');
+                    this.$toast('退出登录成功，请等候跳转。。。');
+                    setTimeout(()=>{
+                        this.$router.push({name: 'login'})
+                    },1000)
 
                     
                 }).catch(()=>{

@@ -4,6 +4,7 @@
             title="关于我们"
             @back="backTo"/>
 		<img :src="about_us" alt="">
+        <van-button type="default" @click="checkUpGrade" v-show="show_up_grade">检测升级</van-button>
 	</div>
 </template>
 
@@ -18,7 +19,8 @@
 		data(){
 			return {
                 nickName: "",
-                about_us: AboutUs
+                about_us: AboutUs,
+                show_up_grade: false            //检测升级按钮
 			}
 		},
 		
@@ -35,7 +37,11 @@
 		},
 		
 		created(){
-			this.getNick();
+            this.getNick();
+            let device = this.$util.checkTheTerminal();
+            if(device === 'IOS' || device === 'android') {
+                this.show_up_grade = true;
+            }
 		},
 		
 		methods: {
@@ -51,6 +57,23 @@
 						this.$router.go(-1);
 					})
 				}
+            },
+            checkUpGrade() {
+                //检测升级
+                let device = this.$util.checkTheTerminal();
+                let flag = this.$util.checkPrimalFunc('checkUpgrade');
+                if(flag) {
+                    switch(device) {
+                        case 'IOS': 
+                            this.$util.iosFunc('checkUpgrade');
+                            break;
+                        case 'android':
+                            this.$util.androidFunc('checkUpgrade');
+                            break;
+                        default:
+                            break;
+                    }
+                }
             },
             backTo() {
                 this.$router.back(-1)

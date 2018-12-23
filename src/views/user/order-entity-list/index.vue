@@ -144,7 +144,7 @@
 	import { Tab, Tabs, Panel, Card, Checkbox, CheckboxGroup, PullRefresh  } from 'vant';
 	import IsEmpty from "@/vue/components/is-empty/";
 	import status0 from "./handle-status-10";
-	import status20 from "./handle-status-20";
+	import status1 from "./handle-status-20";
 	import status25 from "./handle-status-25";
 	import status3 from "./handle-status-30";
 	import status40 from "./handle-status-40";
@@ -431,7 +431,8 @@
             [Checkbox.name]: Checkbox ,
             [IsEmpty.name]: IsEmpty,
             [NavBar.name]: NavBar,
-			status0,
+            status0,
+            status1,
 			status3,
             status4,
             status9

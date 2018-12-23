@@ -2,11 +2,11 @@
     <div class="item_detail">
         <!-- 头部搜索 -->
         <div class="item_list_header">
-            <search-bar
-                name="item_detail"
-                :click="true"
-                @to="toSearch"
-                @share="shareLink" />
+            <search-bar name="item_detail"
+                        :click="true"
+                        @to="toSearch"
+                        @share="shareLink"
+            />
         </div>
 
         <!-- 结果为空页 -->
@@ -14,13 +14,10 @@
 
         <div class="item_list_search" v-if="show_search_compo">
             <!-- 搜索显示层 -->
-            <search-compo
-                :show="show_search_compo"
-                :popup="popup"
-                @SearchKeyword="searchKeyword"
-                @closePopup="closeSearch"
-            >
-
+            <search-compo :show="show_search_compo"
+                          :popup="popup"
+                          @SearchKeyword="searchKeyword"
+                          @closePopup="closeSearch">
             </search-compo>
         </div>
 
@@ -32,6 +29,7 @@
                      class="item_detail_banner_proTag"
                      v-if="goods && !(goods.prom_large instanceof Array)"
                 />
+
                 <!-- 左下角直发代发 -->
                 <div v-if="goods && (goods.owner === 1 || goods.owner === 2)" class="item_detail_banner_icon">
                     <van-icon name="yqn_replace" v-if="goods && goods.owner === 1" />
@@ -79,25 +77,29 @@
                 <div class="item_detail_onSale_price">
                     <span class="item_detail_onSale_price_symbol">整点秒杀</span>
                     <span class="item_detail_onSale_price_past">
-                    <span>￥<span class="item_detail_onSale_price_price">{{goods.prom_limit.max_price === goods.prom_limit.min_price?goods.prom_limit.max_price:goods.prom_limit.min_price + '~' + goods.prom_limit.max_price}}</span>
-                    </span>
-                    <span class="item_detail_onSale_price_past_price">￥{{goods.max_price === goods.min_price?goods.max_price:goods.min_price + '~' + goods.max_price}}</span>
+                        <span>￥<span class="item_detail_onSale_price_price">{{goods.prom_limit.min_price | show_price(goods.prom_limit.max_price)}}</span></span>
+
+                        <span class="item_detail_onSale_price_past_price">￥{{goods.min_price | show_price(goods.max_price)}}</span>
                         <!-- <span class="item_detail_onSale_price_past_count">{{goods.sum_sale}}件已售</span> -->
-                </span>
+                    </span>
                 </div>
 
                 <div class="item_detail_onSale_countDown" v-if="getCountDown()">
                 <span class="item_detail_onSale_countDown_time">距离结束：
                     <countdown :time="getCountDown()*1000">
                         <template slot-scope="props">
-                            {{ props.days*24 + parseInt(props.hours) }}:{{ props.minutes }}:{{ props.seconds }}
+                            {{ props.days * 24 + parseInt(props.hours) }}:{{ props.minutes }}:{{ props.seconds }}
                         </template>
                     </countdown>
                 </span>
-                    <vm-progress :percentage="70" :text-inside="true" :stroke-width="18" status="exception" striped
-                                 class="progress item_detail_onSale_countDown_count" stroke-color="#FF6600"
+                    <vm-progress :percentage="goods.prom_limit.rate"
+                                 :text-inside="true"
+                                 :stroke-width="18"
+                                 status="exception" striped
+                                 class="progress item_detail_onSale_countDown_count"
+                                 stroke-color="#f60"
                                  track-color="#CF4814">
-                        已抢 70%
+                        已抢 {{ goods.prom_limit.rate }}%
                     </vm-progress>
                 </div>
             </div>
@@ -110,24 +112,24 @@
                         {{ goods.title }}
                     </div>
                     <div class="item-advice">
-            <span class="item-advice-payType" v-if="goods.owner !== 3">
-              {{ goods && goods.owner === 0 ? '支持物流到付' : '' }}
-              {{ goods && (goods.owner === 1 || goods.owner === 2) ? '需要线上付款' : '' }}
-            </span>
+                        <span class="item-advice-payType" v-if="goods.owner !== 3">
+                          {{ goods && goods.owner === 0 ? '支持物流到付' : '' }}
+                          {{ goods && (goods.owner === 1 || goods.owner === 2) ? '需要线上付款' : '' }}
+                        </span>
 
                         <span class="item-advice-line" v-if="goods.owner !== 3"></span>
 
-                        <span class="item-advice-price">建议零售价：{{goods.sug_price}}</span>
+                        <span class="item-advice-price">建议零售价: {{goods.sug_price}}</span>
                         <span class="item-advice-line"></span>
-                        <span class="item-advice-hot">热度： {{goods.sum_sale}}</span>
+                        <span class="item-advice-hot">热度: {{goods.sum_sale}}</span>
                     </div>
                     <div class="item_info_price">
                         ￥
                         <!-- 直降秒杀 -->
-                        <span class="item_info_price_salePrice" v-if="goods && !(goods.prom_limit instanceof Array)">{{goods.prom_limit.max_price === goods.prom_limit.min_price?goods.prom_limit.max_price:goods.prom_limit.min_price + '~' + goods.prom_limit.max_price}}</span>
-                        <span class="item_info_price_default" v-if="!(goods.prom_limit instanceof Array)">￥{{goods.max_price === goods.min_price?goods.max_price:goods.min_price + '~' + goods.max_price}}</span>
+                        <span class="item_info_price_salePrice" v-if="goods && !(goods.prom_limit instanceof Array)">{{goods.prom_limit.min_price | show_price(goods.prom_limit.max_price)}}</span>
+                        <span class="item_info_price_default" v-if="!(goods.prom_limit instanceof Array)">￥{{goods.min_price | show_price(goods.max_price)}}</span>
                         <!-- 非直降秒杀 -->
-                        <span class="item_info_price_salePrice" v-if="goods && (goods.prom_limit instanceof Array)">{{goods.max_price === goods.min_price?goods.max_price:goods.min_price + '~' + goods.max_price}}</span>
+                        <span class="item_info_price_salePrice" v-if="goods && (goods.prom_limit instanceof Array)">{{goods.min_price | show_price(goods.max_price)}}</span>
                     </div>
 
                     <div class="item_info_advance"
@@ -177,16 +179,16 @@
                     <div slot="title" class="item_detail_slot_title">
                         <span class="item_cell_group_title item_detail_activity_title">活动：</span>
                         <span class="item_detail_activity_desc">
-                    <div class="item_detail_activity_desc_line" v-for="(item,index) in goods.prom" :key="index">
-                        <span class="item_detail_activity_desc_line_title">{{ item.tag }}</span>
+                            <div class="item_detail_activity_desc_line" v-for="(item,index) in goods.prom" :key="index">
+                                <span class="item_detail_activity_desc_line_title">{{ item.tag }}</span>
 
-                        <span v-if="item.tag !== '赠'"
-                              class="item_detail_activity_desc_line_desc">
-                            {{ item.ms }}
-                        </span>
+                                <span v-if="item.tag !== '赠'"
+                                      class="item_detail_activity_desc_line_desc">
+                                    {{ item.ms }}
+                                </span>
 
-                        <span class="item_detail_activity_desc_line_gift" v-else>购买此商品可获得赠品</span>
-                    </div>
+                                <span class="item_detail_activity_desc_line_gift" v-else>购买此商品可获得赠品</span>
+                            </div>
                             <!-- <div class="item_detail_activity_desc_line">
                                 <span class="item_detail_activity_desc_line_title">满减</span>
                                 <span class="item_detail_activity_desc_line_desc">每减1000元减10元</span>
@@ -195,7 +197,7 @@
                                 <span class="item_detail_activity_desc_line_title">满赠</span>
                                 <span class="item_detail_activity_desc_line_desc">每满1039元可获得赠品</span>
                             </div> -->
-                    </span>
+                        </span>
                     </div>
                 </van-cell>
             </van-cell-group>
@@ -273,19 +275,19 @@
                     @skuBuy="doBuyNow"
                     /> -->
 
-            <!-- 商品详情区 -->
+            <!-- 商品详情 -->
             <div class="item_desc" v-if="goods && goods_detail">
                 <div class="item_desc_title">
-                <span class="item_desc_title_left">
-                    <span class="item_desc_title_left_slot"></span>
-                    商品详情
-                </span>
+                    <span class="item_desc_title_left">
+                        <span class="item_desc_title_left_slot"></span>
+                        商品详情
+                    </span>
 
                     <span @click="shareImg"
                           class="item_desc_title_target">
-                    <van-icon :name="item_desc_icon" />
+                        <van-icon :name="item_desc_icon" />
                         <!-- <span>下载APP</span> -->
-                </span>
+                    </span>
                 </div>
                 <span class="item_desc_text">（点击分享按钮，手动分享到朋友圈，轻松卖货）</span>
                 <div class="item_desc_content">
@@ -299,8 +301,8 @@
                     <!-- 商品详情里的图片 -->
                     <section class="img_content_image">
                         <img class="img_content_image_item"
-                             v-for="item in imgContent"
-                             key="i"
+                             v-for="(item,index) in imgContent"
+                             :key="index"
                              :src="item"
                              alt="商品详情里的图片"
                         />
@@ -366,24 +368,24 @@
                         <span class="item_sku_header_price_count">
                             <span class="item_sku_header_price_count_price">
                                 箱价：￥
-                            <span>{{ goods && goods.box_price }}</span>
-                        </span>
+                                <span>{{ goods && goods.box_price }}</span>
+                            </span>
                             <!--<span class="item_sku_header_price_count_point">-->
                             <!--<span>送</span>-->
                             <!--<span>{{sum_point || '-'}}</span>-->
                             <!--<span>积分</span>-->
                             <!--</span>-->
+                        </span>
+                        <span class="item_sku_header_price_unit">单价：￥{{goods && goods.market_price}}</span>
+                        <span class="item_sku_header_price_freight" v-if="show_freight_text">
+                            <span>运费到付</span>
+                            <span>（可到付）</span>
+                        </span>
+                        <span class="item_sku_header_price_freight" v-else>
+                            <span>运费：￥{{goods && goods.quantity}}</span>
+                            <span>（仅支持线上支付）</span>
+                        </span>
                     </span>
-                    <span class="item_sku_header_price_unit">单价：￥{{goods && goods.market_price}}</span>
-                    <span class="item_sku_header_price_freight" v-if="show_freight_text">
-                        <span>运费到付</span>
-                        <span>（仅支持线上支付）</span>
-                    </span>
-                    <span class="item_sku_header_price_freight" v-else>
-                        <span>运费：￥{{goods && goods.quantity}}</span>
-                        <span>（仅支持线上支付）</span>
-                    </span>
-                  </span>
                 </div>
             </template>
 
@@ -510,37 +512,37 @@
             <!-- 合计送积分改到这 -->
             <section slot="sku-actions" class="item_sku_bottom_price">
                 <span class="item_sku_bottom_price_count">
-                  <span class="item_sku_bottom_price_count_price">
-                    <span class="item_sku_bottom_price_count_price_detail">
-                      合计：
-                      <span class="item_sku_bottom_price_count_price_detail_content">
-                        <span class="item_sku_bottom_price_count_price_detail_symbol">￥</span>
+                    <span class="item_sku_bottom_price_count_price">
+                        <span class="item_sku_bottom_price_count_price_detail">
+                            合计：
+                            <span class="item_sku_bottom_price_count_price_detail_content">
+                                <span class="item_sku_bottom_price_count_price_detail_symbol">￥</span>
 
-                        <span>{{ sum_price || '-' }}</span>
-                      </span>
+                                <span>{{ sum_price || '-' }}</span>
+                            </span>
+                        </span>
+
+                        <span v-if="show_freight_text" class="item_sku_bottom_price_count_price_freight">
+                            运费到付
+                        </span>
+
+                        <span class="item_sku_bottom_price_count_price_freight" v-else>
+                            另需运费：￥{{ sum_freight || '-' }}
+                        </span>
                     </span>
 
-                    <span v-if="show_freight_text" class="item_sku_bottom_price_count_price_freight">
-                      运费到付
+                    <span class="item_sku_bottom_price_count_point">
+                        <span>送</span>
+                        <span>{{sum_point || '-'}}</span>
+                        <span>积分</span>
                     </span>
 
-                    <span class="item_sku_bottom_price_count_price_freight" v-else>
-                      另需运费：￥{{ sum_freight || '-' }}
-                    </span>
-                  </span>
-
-                  <span class="item_sku_bottom_price_count_point">
-                      <span>送</span>
-                      <span>{{sum_point || '-'}}</span>
-                      <span>积分</span>
-                  </span>
-
-                  <div class="item_sku_bottom_price_count_ok"
-                       slot="sku-actions"
-                       :class="'item_sku_actions ' + (able_add ? '' : 'disabled')"
-                       @click="buyNow">
-                    确 定
-                  </div>
+                    <div class="item_sku_bottom_price_count_ok"
+                         slot="sku-actions"
+                         :class="'item_sku_actions ' + (able_add ? '' : 'disabled')"
+                         @click="buyNow">
+                        确 定
+                    </div>
                 </span>
             </section>
         </van-sku>
@@ -659,7 +661,7 @@
                 <div class="item_detail_QR">
                     <span class="item_detail_QR_title">加微信拉你进群</span>
 
-                    <img src="../../../assets/images/yqn_download_ewm.png"
+                    <img :src="QR_code_img"
                          alt="二维码图片"
                     />
 
@@ -727,10 +729,12 @@
     import NavBar from '@/vue/components/NavBar/search.vue'
     import md_kefu from '@/vue/components/md-kefu/';
 
-    // 搜索组件相关
+    // 空白页
     import IsEmpty from "@/vue/components/is-empty/";
-    import SearchBar from '@/vue/components/NavBar/search.vue'
-    import SearchCompo from '@/vue/components/Search/'
+
+    // 搜索相关
+    import SearchBar from '@/vue/components/NavBar/search.vue';
+    import SearchCompo from '@/vue/components/Search/';
 
     export default {
         props: {
@@ -756,7 +760,7 @@
                 address_info: '请添加收货地址',                  //规格项中的省市区
                 able_add: true,                         //允许添加至购物车或者订单
                 hidden_freight: false,                  //选中物流，隐藏运费项
-                show_freight_text: false, // 选中物流， 显示运费到付
+                show_freight_text: false, // 选中物流, 显示运费到付
                 cartInfo: "",
                 mobile: "13454193338",
                 selectSku: {
@@ -802,6 +806,7 @@
                 show_activity: false,            //活动弹出层，满减满赠
                 show_global_notice: false, // 显示全球购通知
                 show_QRCode: false,                 //二维码弹出层
+                QR_code_img: '',                    //二维码图片
                 show_service: false,                //售后保障弹出层
                 show_service_call: false,              //专属客服电话
                 sku_tab: [],                //规格项tab
@@ -943,11 +948,20 @@
             let name = this.$util.checkTheTerminal();
 
             if (name === 'IOS' || name === 'android') {
+                //如果是APP中
                 this.isLoading = false;
                 this.isShowing = false;
                 this.item_desc_icon = 'yqn_share';
             } else {
                 this.isLoading = true;
+            }
+
+            //如果没有二维码
+            let QR_Code = sessionStorage.getItem('yg_qrcode');
+            if (QR_Code) {
+                this.QR_code_img = QR_Code;
+            } else {
+                this.isShowing = false;
             }
         },
 
@@ -2094,6 +2108,11 @@
         &_content {
             height: 100%;
             overflow-y: auto;
+
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding-bottom: 2.1rem;
         }
 
         &_banner {
@@ -2109,7 +2128,7 @@
                 .van-swipe-item {
                     display: flex;
                     justify-content: center; // x 轴对齐方式
-                    align-items: center;     // y 轴对滴方式
+                    align-items: center; // y 轴对滴方式
                     height: 100%;
                 }
             }
@@ -2233,7 +2252,7 @@
 
             &_countDown {
                 width: 38%;
-                background: #ff944d;
+                background-color: #ff944d;
                 padding: .2rem .4rem;
 
                 &_count {
@@ -2397,7 +2416,7 @@
             flex-direction: column;
             justify-content: space-around;
             margin-bottom: .2rem;
-            padding: .4rem .32rem 1rem;
+            padding: .4rem .32rem;
             background-color: #fff;
 
             img {
@@ -2548,8 +2567,8 @@
         }
 
         &_describe {
-            padding: 0 .32rem;
-            background: #fff;
+            padding: .32rem;
+            background-color: #fff;
 
             span {
                 &:nth-child(1) {
@@ -2574,9 +2593,11 @@
         .item_sku {
             &_header {
                 width: 100%;
-                // &_title {
 
-                // }
+                /*&_title {*/
+
+                /*}*/
+
                 &_price {
                     display: block;
                     display: flex;
@@ -2641,13 +2662,11 @@
                 display: flex;
                 align-items: center;
 
-                &_send_to
-                {
+                &_send_to {
                     color: $sub-title-color;
                 }
 
-                &_icon
-                {
+                &_icon {
                     font-size: 16px;
                 }
             }
@@ -2657,8 +2676,7 @@
                 display: flex;
                 justify-content: space-between;
 
-                &_delivery_method
-                {
+                &_delivery_method {
                     color: $sub-title-color;
                 }
 
@@ -2774,14 +2792,14 @@
                         }
 
                         /*@media screen and (max-width: 345px) {*/
-                            /*li {*/
-                                /*padding: .2rem 0 .2rem 0;*/
-                            /*}*/
+                        /*li {*/
+                        /*padding: .2rem 0 .2rem 0;*/
+                        /*}*/
                         /*}*/
                     }
 
                     &_sku1 {
-                        box-shadow: 0 0 0 .1rem rgba(163, 72, 1, .19);
+                        box-shadow: 0 0 0 .1rem rgba(163,72,1,.19);
                         max-height: 9rem;
                         overflow-y: auto;
                         z-index: 1000;
@@ -3432,59 +3450,56 @@
 
         /* 步进器样式调整 */
         /*.item_sku {*/
-            /*&_desc {*/
-                /*&_content {*/
-                    /*&_right {*/
-                        /*.item_sku_desc_content_num {*/
-                            /*&_content {*/
-                                /*.van-stepper {*/
-                                    /*.van-stepper__minus {*/
-                                        /*width: 23px;*/
-                                        /*height: 23px;*/
-                                    /*}*/
-
-                                    /*.van-stepper__input {*/
-                                        /*-webkit-box-sizing: border-box;*/
-                                        /*-moz-box-sizing: border-box;*/
-                                        /*box-sizing: border-box;*/
-                                        /*width: 41px;*/
-                                        /*height: 23px;*/
-                                    /*}*/
-
-                                    /*.van-stepper__plus {*/
-                                        /*width: 23px;*/
-                                        /*height: 23px;*/
-                                    /*}*/
-                                /*}*/
-                            /*}*/
-                        /*}*/
-                    /*}*/
-                /*}*/
-
-                /*&_oneSkuContent {*/
-                    /*.van-stepper {*/
-                        /*.van-stepper__minus {*/
-                            /*width: 30px;*/
-                        /*}*/
-
-                        /*.van-stepper__input {*/
-                            /*width: 30px;*/
-                        /*}*/
-
-                        /*.van-stepper__plus {*/
-                            /*width: 30px;*/
-                        /*}*/
-                    /*}*/
-                /*}*/
-            /*}*/
+        /*&_desc {*/
+        /*&_content {*/
+        /*&_right {*/
+        /*.item_sku_desc_content_num {*/
+        /*&_content {*/
+        /*.van-stepper {*/
+        /*.van-stepper__minus {*/
+        /*width: 23px;*/
+        /*height: 23px;*/
         /*}*/
 
-        .item_sku
-        {
-            .van-sku-header
-            {
-                .van-sku-header__img-wrap
-                {
+        /*.van-stepper__input {*/
+        /*-webkit-box-sizing: border-box;*/
+        /*-moz-box-sizing: border-box;*/
+        /*box-sizing: border-box;*/
+        /*width: 41px;*/
+        /*height: 23px;*/
+        /*}*/
+
+        /*.van-stepper__plus {*/
+        /*width: 23px;*/
+        /*height: 23px;*/
+        /*}*/
+        /*}*/
+        /*}*/
+        /*}*/
+        /*}*/
+        /*}*/
+
+        /*&_oneSkuContent {*/
+        /*.van-stepper {*/
+        /*.van-stepper__minus {*/
+        /*width: 30px;*/
+        /*}*/
+
+        /*.van-stepper__input {*/
+        /*width: 30px;*/
+        /*}*/
+
+        /*.van-stepper__plus {*/
+        /*width: 30px;*/
+        /*}*/
+        /*}*/
+        /*}*/
+        /*}*/
+        /*}*/
+
+        .item_sku {
+            .van-sku-header {
+                .van-sku-header__img-wrap {
                     margin-top: .52rem;
                 }
             }

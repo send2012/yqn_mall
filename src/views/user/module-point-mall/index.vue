@@ -77,7 +77,7 @@
             <span class="point_list_sign_point">+{{userpoint}}</span>
         </van-dialog>
 
-        <img :src="point_info" alt="积分说明" class="point_list_img" v-if="!isEmpty" />
+        <img :src="point_info" alt="积分说明" class="point_list_img" v-if="!isEmpty && !isload" />
 
 		<is-empty v-if="isEmpty">
             <div class="is-empty">
@@ -150,6 +150,7 @@
                 setting: {
                     style: 2
                 },
+                isload:false,
                 isLoading:false,
                 userpoint:0,                  //领取积分数量
                 userstatus:0,                //用户当前是否可以领取积分
@@ -192,6 +193,7 @@
 		
 		methods:{
 			initData(loadMore = false){
+                this.isload = true;
 				return this.$reqGet(POINT_PRO_LIST, {
                     // pagesize: this.pages.perPage,
                     pagesize: 50,
@@ -200,6 +202,7 @@
 				},{
 					hideLoading: true
 				}).then(res => {
+                    this.isload =false
                     const { list, hasmore } = res.data;
                     if(list.length === 0) this.isEmpty = true;
                     if(this.active === 0) {

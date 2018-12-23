@@ -189,7 +189,9 @@
                     this.isSubmit = true;
                     this.$reqPost(OREDER_GOODS_ADD,form).then(res => {
                         this.isSubmit = false;
-                        
+                        if(res.code === 401){
+                            this.$router.go(0)
+                        }
                         if(res.data.pay_goods.length === 0) {
                             //需要支付的订单为空跳转到成功页面
                             let str = 'goods=' + res.data.goods + '&' + 'act=Topay'+'&'+'goodsdetail='+res.data.nopay_goods;
@@ -289,6 +291,7 @@
                     vm.buytype = 'once';
                     vm.initBuyList(address_id,cou_ids,'once');
                 }else if(from.name && from.name !== 'detail'){
+                    sessionStorage.setItem('buytype','');
                     vm.initBuyList(address_id,cou_ids,'');
                 }else if(!from.name) {
                     //如果刷新页面

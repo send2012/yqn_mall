@@ -57,7 +57,7 @@
           <span class="item_card_proDesc_tags_item" v-for="(item,index) in span" :key="index">{{item}}</span>
       </div> -->
       <div class="item_card_proDesc">
-        <span class="item_card_proDesc_price">￥{{(goods.max_price === goods.min_price)?goods.max_price:(goods.min_price + '~' + goods.max_price)}}</span>
+        <span class="item_card_proDesc_price">￥{{goods.min_price | show_price(goods.max_price)}}</span>
 
       </div>
       <div class="item_card_sumSale">

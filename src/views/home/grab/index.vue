@@ -11,8 +11,9 @@
                     <van-pull-refresh @refresh="onRefresh"
                                       v-model="isLoading">
                         <section v-if="!isEmpty" class="seckill_list_banner">
-                            <img src="../../../assets/images/grab_banner.jpg"
+                            <img :src="seckill_banner?seckill_banner:require('../../../assets/images/grab_banner.jpg')"
                                  alt="秒杀专区顶部图片"
+                                 :onerror="seckill_onerror"
                                  class="seckill_list_banner_image"
                             />
                         </section>
@@ -24,7 +25,7 @@
                             <span>距结束：
                                 <countdown :time="getCountDown(items,stamp)" class="seckill_list_text_countdown">
                                     <template slot-scope="props">
-                                        {{ props.days * 24 + parseInt(props.hours) }} : {{ props.minutes }} : {{ props.seconds }}
+                                        {{ props.days * 24 + parseInt(props.hours) }}:{{ props.minutes }}:{{ props.seconds }}
                                     </template>
                                 </countdown>
                             </span>
@@ -133,8 +134,9 @@
                     <van-pull-refresh @refresh="onRefresh"
                                       v-model="isLoading">
                         <section v-if="!isEmpty" class="seckill_list_banner">
-                            <img src="../../../assets/images/limittime_banner.png"
+                            <img :src="limittime_banner?limittime_banner:require('../../../assets/images/limittime_banner.png')"
                                  alt="限时抢购顶部图片"
+                                 :onerror="limittime_error"
                                  class="seckill_list_banner_image"
                             />
                         </section>
@@ -169,7 +171,7 @@
                         <div v-if="itemsLimit">
                             <item-group :key="item.key" v-for="item in itemsLimit">
                                 <item-card-hori
-                                    v-for="(good, i) in item.plist"
+                                    v-for="(good, i) in item.prolist"
                                     :key="i"
                                     :goods="good"
                                     @click="itemClick(good.pro_pid)"
@@ -376,6 +378,10 @@
                 date_activity: 0,             //活动是否已经结束  0未开始  1开始  2.结束
                 activeTab: 0, // 顶部 tab 激活
                 isLoading: false, // 下拉刷新是否在加载中
+                seckill_banner: '',            //秒杀banner
+                limittime_banner: '',              //限时抢购banner
+                seckill_onerror: 'this.src="' + require('../../../assets/images/grab_banner.jpg') + '"',    //秒杀banner错误
+                limittime_onerror: 'this.src="' + require('../../../assets/images/limittime_banner.png') + '"',        //限时抢购banner错误
                 items: [], // 秒杀类
                 itemsLimit: [], // 限时类
             }
@@ -408,7 +414,7 @@
                     // 秒杀专区
                     let {date, group, id} = this;
                     this.$reqGet(PROMOTE_SECKILL_LIST, {date, group, id}).then(res => {
-                        const {list, page} = res.data;
+                        const { list, page, banner } = res.data;
 
                         // list 为空数组时, 显示空白页
                         if (list.length === 0) {
@@ -418,6 +424,7 @@
                         }
 
                         // if (list instanceof Array) this.isEmpty = true;
+                        this.seckill_banner = banner;
                         this.items.push(...this.$util.objectToArray(list));
                         // console.log(this.items);
                         this.stamp = res.data.servertime;
@@ -430,9 +437,9 @@
                     // 限时抢购
                     // console.log(this.$route.params);
                     this.$reqGet(PROMOTE_LIMITTIME_LIST, {
-                        id: this.$route.params.itemClass
+
                     }).then(res => {
-                        const {list, page} = res.data;
+                        const { list, page, banner } = res.data;
 
                         if (list.length === 0) {
                             this.isEmpty = true;
@@ -443,7 +450,8 @@
                         // if (list instanceof Array) this.isEmpty = false;
 
                         this.itemsLimit.push(...this.$util.objectToArray(list));
-                        // console.log(this.itemsLimit);
+                        console.log(this.itemsLimit);
+                        this.limittime_banner = banner;
                         this.stamp = res.data.servertime;
                         this.items = [];
 
@@ -576,7 +584,7 @@
 
     .seckill_list {
         /* height: 30px; */
-        background-color: #fff;
+        background-color: #f7f7f7;
         padding-top: 2rem;
         box-sizing: border-box;
         /*position: relative;*/
@@ -686,13 +694,18 @@
             &_content {
                 padding-top: .2rem;
 
+                .items_group
+                {
+                    background-color: #fff !important;
+                }
+
                 .item_card_D_wrap {
                     flex: 0 0 50%;
                 }
 
-                /*.item_card_H_wrap*/
-                /*{*/
-                /*height: 6rem;*/
+                /*.item_card_H_wrap {*/
+                    /*margin-bottom: 4px;*/
+                /*}*/
 
                 /*&_inner*/
                 /*{*/
@@ -807,7 +820,7 @@
             .van-tabs__wrap {
                 height: 2.25rem;
                 padding-top: .08rem;
-                background-color: rgba(255, 232, 36, 1);
+                background-color: rgba(255,232,36,1);
             }
 
             .van-tabs__line {
@@ -941,6 +954,11 @@
 
         /* 限时抢购样式调整 */
         .limit-time-buy {
+            .items_group
+            {
+                background-color: #fff !important;
+            }
+
             .grab_public_style {
                 .item_card_H_wrap_inner {
                     .item_card_info {

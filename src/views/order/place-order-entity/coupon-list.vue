@@ -1,12 +1,13 @@
 <template>
 	<div class="order_list">
 
-        <nav-bar 
+        <nav-bar
             title="选择优惠券"
             @back="backTo"/>
 
 		<van-tabs
 			sticky
+            :offset-top="46"
 			:active="activeIndex"
 			:swipe-threshold="2"
 			@click="handleTabClick"
@@ -21,7 +22,7 @@
                         :disabled="el.checked === 0"
                         @click.native="changeCheckCoupon(el)"
                     >
-                        <yqn-coupon 
+                        <yqn-coupon
                             :key="i"
                             :img_src="getImgBg(el)"
                             :data="el" />
@@ -39,8 +40,8 @@
 			</van-tab>
 
             <van-tab title="不可用券" class="order_list_no_coupon">
-                    
-                <yqn-coupon 
+
+                <yqn-coupon
                     v-for="(el, i) in coupon_new['cous_no']"
                     :key="i"
                     :img_src="getImgBg(el)"
@@ -55,33 +56,33 @@
 
 			</van-tab>
 		</van-tabs>
-		
+
         <van-submit-bar
             :price="price*100"
             button-text="确定"
             :label="'已选择' + result.length + '张，抵扣'"
             @submit="onSubmit"
         />
-		
+
 	</div>
 </template>
 
 <script>
 	import { PRO_SUBCHANGE } from '@/api/cart';
-	
+
 	import { Tab, Tabs, Panel, Card, SubmitBar, Checkbox, CheckboxGroup } from 'vant';
     import IsEmpty from "@/vue/components/is-empty/";
     import Coupon from "@/vue/components/coupon/cart_coupon"
     import NavBar from "@/vue/components/NavBar/"
-	
+
 	// import loadMore from '@/vue/mixin/list-load-more';
     // import scrollFixed from '@/vue/mixin/scroll-fixed';
-    
+
     //引入底层图片
     import FREIGHT_IMG from "@/assets/images/cart/cart_ticket_ship.png";
     import DEFAULT_IMG from "@/assets/images/cart/cart_ticket_default.png";
     import DISABLED_IMG from "@/assets/images/cart/cart_ticket_disabled.png";
-	
+
 	const STATUS_TEXT = {
         0: "未开始",
 		10: "待付款",
@@ -100,13 +101,13 @@
         1: DISABLED_IMG,
         2: DISABLED_IMG
     }
-    
-	
+
+
 	export default {
 		name: 'coupon-list',
 
 		// mixins: [loadMore, scrollFixed],
-		
+
 		props: {
 			status: {
 				type: [String, Number],
@@ -165,7 +166,7 @@
                 reset_data: null                    //点击优惠券后的整个表单的数据
 			}
 		},
-		
+
 		watch: {
             '$route': 'resetInit'
 		},
@@ -173,7 +174,7 @@
 		created() {
 			// this.resetInit();
 		},
-		
+
 		methods: {
 			initData(address_id,cou_ids,buytype) {
 				this.$reqPost(PRO_SUBCHANGE,{
@@ -231,7 +232,7 @@
                     console.log(22222222222222,this.result)
                     this.initData('',this.result,this.buytype);
                 }
-               
+
             },
             onSubmit() {
                 //确认选择
@@ -287,7 +288,7 @@
             }
             &_btn {
                 display: inline-block;
-                border: 1px solid $main-color; 
+                border: 1px solid $main-color;
                 border-radius: 3px;
                 color: $main-color;
                 font-size: $product-title-size;
@@ -303,8 +304,17 @@
 <style lang="scss">
 
 .order_list {
+    .van-tabs
+    {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding-bottom: 1rem;
+    }
+
     .van-tabs__content {
         padding-top: .6rem;
+
         .van-checkbox {
             padding-left: .6rem;
         }
@@ -313,7 +323,7 @@
         font-size:0.4rem;
     }
     .coupon_item_data_desc_title{
-        line-height:auto !important; 
+        line-height: auto !important;
     }
     .van-tabs{
         height: 100%;

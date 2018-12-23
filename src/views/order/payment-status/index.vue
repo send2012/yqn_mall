@@ -269,10 +269,10 @@
                         this.count=1
                         that.payzt = res.data.payzt
                         that.summoney=res.data.summoney;
-                        if(that.payzt  == 1){ 
-                            clearInterval(that.timer)
-                        }else{
+                        if(that.payzt && that.payzt!=1){ 
                             this.goods_getsuccess()
+                        }else{
+                            
                         }
                 })
             },
@@ -303,7 +303,16 @@
             },
             goto(){
                 // 继续逛逛
-                this.$router.push({name: 'class',params: {st: '1'}})
+                if(this.act == 'point'){
+                    this.$router.push({name: 'user-point-mall'})
+                }else if(this.act == 'coupon'){
+                    this.$router.push({name: 'buy-coupon-list'})
+                }else if(this.act == 'presell'){
+                    this.$router.push({name: 'pre_sale_list'})
+                }else{
+                    this.$router.push({name: 'class',params: {st: '1'}})
+                }
+                
             },
             goHome(){
                 this.$router.push({name: 'home',params: {st: '1'}})

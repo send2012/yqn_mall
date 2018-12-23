@@ -81,7 +81,7 @@
             <!-- 多个商品 -->
                 <div  class="moregoodsbox" v-if="delivery_courier.length>=1" @click="goodspopup(delivery_courier,'快递发货')">
                     <span class="order-goods_self_title"><span>快递发货</span> <span class="courier">快递随机选择</span>   </span>
-                    <van-cell :value="`共${delivery_courier.length}件`" >
+                    <van-cell :value="`共${courierbuynum}件`" >
                     <van-icon slot="right-icon" name="yqn_downArrow" class="goods-icon" />
                     <template slot="title">
                         <div class="order-goods_goodlist">
@@ -94,7 +94,7 @@
                     <span class="order-goods_self_title">物流配送 
                          <span class="logistics" @click="freightWay">{{freight_way_default}}<van-icon slot="right-icon" name="yqn_downArrow" class="goods-icon" /></span>
                     </span>
-                    <van-cell @click="goodspopup(delivery_logistics,'物流配送')" :value="`共${delivery_logistics.length}件`" >
+                    <van-cell @click="goodspopup(delivery_logistics,'物流配送')" :value="`共${logisticsbuynum}件`" >
                     <van-icon slot="right-icon" name="yqn_downArrow" class="goods-icon" />
                     <template @click="goodspopup(delivery_logistics,'物流配送')" slot="title">
                         <div @click="goodspopup(delivery_logistics,'物流配送')"  class="order-goods_goodlist">
@@ -211,14 +211,21 @@
                   <div class="order-goods_payWay_title">
                     <span class="order-goods_payWay_title_text">商品清单 <span class="order-goods_payWay_title_num">({{pay_way}})</span></span>
                     
-                    <span class="order-goods_payWay_title_num">{{`共${currentpopupgoods.length}件`}}&nbsp;&nbsp;&nbsp;<van-icon name="close" class="order-goods_payWay_title_symbol" @click="goodspopupshow=false"/></span>
+                    <span class="order-goods_payWay_title_num">
+                    <span v-if="pay_way=='快递发货'">{{`共${courierbuynum}件`}}</span>
+                    <span v-else>{{`共${logisticsbuynum}件`}}</span>
+                    &nbsp;&nbsp;&nbsp;
+                    <van-icon name="close" class="order-goods_payWay_title_symbol" @click="goodspopupshow=false"/>
+                    </span>
                     
                 </div>
                 <van-card  
                     v-for="(item,index) in currentpopupgoods"
                     :key="index"
-                    :thumb="item.picpath"
                 >
+                    <div slot="thumb">
+                        <img v-lazy="item.picpath" alt="">
+                    </div>
                     <div slot="title" class="order-goods_self_card_title"> <span class="goods_notice" v-if="item.typeid!=0">{{item.typeid==1?'赠品':'满赠品'}}</span>  {{item.title}}</div>
                     <div slot="desc" class="order-goods_self_card_desc">
                         <span class="order-goods_self_card_desc_sku">{{item.spec_title}}</span>
@@ -360,6 +367,28 @@
         watch: {
             list() {
                 this.initData();
+            }
+        },
+
+        computed: {
+            courierbuynum(){
+                let num = 0
+                this.delivery_courier.map((item)=>{
+                    if(item.typeid === 0){
+                        num += parseInt(item.buynum)
+                    }
+                })
+                return num
+            },
+
+            logisticsbuynum(){
+                let num = 0
+                this.delivery_logistics.map((item)=>{
+                    if(item.typeid === 0){
+                        num += parseInt(item.buynum)
+                    }
+                })
+                return num
             }
         },
         
@@ -601,7 +630,10 @@
                     }
                     .logistics{
                         font-size: $extra-size; 
-                        color: #333333;
+                        color: #FF6600;
+                        .goods-icon{
+                            color: #333;
+                        }
                     }
                 }
                 &_card {

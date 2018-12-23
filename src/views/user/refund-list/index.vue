@@ -400,6 +400,7 @@
                     }, {
                         hideLoading: true
                     }).then(res => {
+                        this.items = []
                         const { list, hasmore } = res.data;
                         this.items.push(...list);
                         if(list.length === 0) this.isEmpty = true;
@@ -415,6 +416,7 @@
                     }, {
                         hideLoading: true
                     }).then(res => {
+                        this.items = []
                         const { list, hasmore } = res.data;
                         this.items.push(...list);
                         if(list.length === 0) this.isEmpty = true;
@@ -545,7 +547,7 @@
 				// }
             },
 			handleTabClick(index){
-                this.items = []
+                
 				if(this.activeIndex != index){
                     this.activeIndex = index;
                     // if(index === 0) {
@@ -559,6 +561,7 @@
                     //标记已经改变过路由
                     this.change_route = true;
                     this.$router.replace({name: "user-refund-list", params: { active: index }})
+                    
 				}
             },
             getStatusIcon(status){
@@ -614,6 +617,8 @@
                     //立即退货回调
                     this.$reqPost(ORDER_GOODS_REFUND_EXPRESS,this.refund_form).then(res => {
                         this.$toast('物流信息提交成功，请等待发货');
+                        this.pages.currPage=1;
+                        this.resetInit();
                         this.showRefund  = false;
                     })
                 }

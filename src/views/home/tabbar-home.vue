@@ -53,13 +53,13 @@
                         v-if="activity_seckill"
                         class="interval_bot"
                         :setting="activity_seckill.setting"
+                        @click.native="jumpToMore(activity_seckill.setting.more)"
                     >
                         <component
                             v-for="item in activity_seckill.seckill.list"
                             :goods="item"
                             :key="item.pro_pid"
                             :is="getStyle(activity_seckill.setting.style)"
-                            @click="toGoods(item)"
                         >
                             <div slot="mask" v-if="lootAll(item)">
                                 <img src="../../assets/images/not_enough.png" alt="已抢光">
@@ -537,6 +537,12 @@
             },
             itemClick(id) {
                 this.$router.push({name: "detail", params: {itemId: id}})
+            },
+
+            jumpToMore(link) {
+                console.log(link)
+                //每日必抢点击进入列表
+                this.$router.push({path: link})
             },
             //   backTop() {
             //     this.$el.scrollTop = 0;

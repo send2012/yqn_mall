@@ -22,7 +22,7 @@
                     <span class='coupon_item_data_desc_desc_btn coupon_item_data_desc_desc_get' v-if="data.zt === 0" @click="getCoupon(data.id)">点击领取</span>
                     <span class='coupon_item_data_desc_desc_btn' v-if="data.zt === 1" @click="jumpTo(data.id)">立即使用</span>
                 </span>
-                <span class="coupon_item_data_desc_date">{{data.startdate + ' ~ ' + data.enddate}}</span>
+                <span class="coupon_item_data_desc_date">{{data.startdate | show_date}}  ~  {{ data.enddate | show_date}}</span>
             </div>
         </div>
         <!-- <img :src="stamp_used" alt="" class="stamp_used" v-if="data.zt === 1"> -->

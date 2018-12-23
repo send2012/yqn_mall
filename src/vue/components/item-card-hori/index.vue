@@ -48,7 +48,7 @@
                             <span v-if="goods.prom_limit.max_price === '' || goods.prom_limit.min_price === ''">
                                 0.00
                             </span>
-                            <span v-else>{{ ( parseFloat(goods.prom_limit.max_price).toFixed(2) === parseFloat(goods.prom_limit.min_price).toFixed(2) ) ? parseFloat(goods.prom_limit.max_price).toFixed(2) : ( parseFloat(goods.prom_limit.min_price).toFixed(2) + '~' + parseFloat(goods.prom_limit.max_price).toFixed(2) ) }}</span>
+                            <span v-else>{{goods.prom_limit.min_price | show_price(goods.prom_limit.max_price) }}</span>
 
                             <span class="marketPrice" v-if="goods.market_price">{{goods.market_price | yuan}}</span>
 						</div>
@@ -59,7 +59,7 @@
                             <span v-if="goods.max_price === '' || goods.min_price === ''">
                                 0.00
                             </span>
-                            <span v-else>{{ ( parseFloat(goods.max_price).toFixed(2) === parseFloat(goods.min_price).toFixed(2) ) ? parseFloat(goods.max_price).toFixed(2) : ( parseFloat(goods.min_price).toFixed(2) + '~' + parseFloat(goods.max_price).toFixed(2) ) }}</span>
+                            <span v-else>{{goods.min_price | show_price(goods.max_price) }}</span>
 
                             <span class="marketPrice" v-if="goods.market_price">{{goods.market_price | yuan}}</span>
 						</div>

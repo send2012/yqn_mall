@@ -25,7 +25,8 @@
                 <item-group class="item_card_single_line">
                     <!-- 一行一个 -->
                     <div class="item_card_H_wrap one_border"
-                         v-for="item in items"
+                         v-for="(item,index) in items"
+                         :key="index"
                          @click="viewDetail(item.id)">
                         <div class="clearfix item_card_H_wrap_inner">
                             <div class="item_card_image float-l">
